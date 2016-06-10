@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'Broadcast_Example' do
+  pod 'Broadcast', :path => '../'
+
+  target 'Broadcast_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
