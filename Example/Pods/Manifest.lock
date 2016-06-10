@@ -1,0 +1,16 @@
+PODS:
+  - Broadcast (0.1.0)
+
+DEPENDENCIES:
+  - Broadcast (from `../`)
+
+EXTERNAL SOURCES:
+  Broadcast:
+    :path: ../
+
+SPEC CHECKSUMS:
+  Broadcast: 5990ec8626e7fc7a1e7dde1596c900606a3c19d7
+
+PODFILE CHECKSUM: 0304f3cd399f8d5ca72b1239416dcb9546a208a6
+
+COCOAPODS: 1.0.1

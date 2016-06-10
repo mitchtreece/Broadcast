@@ -1,0 +1,6 @@
+framework module Pods_Broadcast_Example {
+  umbrella header "Pods-Broadcast_Example-umbrella.h"
+
+  export *
+  module * { export * }
+}
