@@ -3,9 +3,9 @@ Pod::Spec.new do |s|
 
   s.name             = "Broadcast"
   s.version          = "1.0.0"
-  s.summary          = "Simple library that helps keep multiple instances in-sync."
+  s.summary          = "Lightweight instance syncing & property binding."
   s.description      = <<-DESC
-    Broadcast helps keeps object instances in-sync.
+    Broadcast is a quick-and-dirty solution for instance syncing and property binding.
     DESC
   s.homepage         = "https://github.com/mitchtreece/Broadcast"
   s.license          = { :type => "MIT", :file => "LICENSE" }
