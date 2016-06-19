@@ -3,13 +3,16 @@
 //  Pods
 //
 //  Created by Mitch Treece on 6/10/16.
-//
+//  Broadcast
 //
 
 import Foundation
 
 public typealias ReactBlock = (NSNotification) -> ()
 
+/**
+ The `Reactable` protocol defines an object that listens for property changes broadcasted via the `Syncable` protocol.
+ */
 public protocol Reactable: class {
     
     var reactId: String { get }

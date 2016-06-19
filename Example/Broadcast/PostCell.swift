@@ -21,11 +21,15 @@ class PostCell: UITableViewCell {
     
     var post: Post? {
         didSet {
-            guard let post = post else { return }
-            updateUI(post)
-            reactObserver = post.react { notification in
-                self.updateUI(post)
+            
+            if let post = post {
+                updateUI(post)
+                reactObserver = post.react { notification in
+                    self.updateUI(post)
+                }
             }
+
+            
         }
     }
     

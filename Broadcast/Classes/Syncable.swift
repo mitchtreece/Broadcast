@@ -3,7 +3,7 @@
 //  Pods
 //
 //  Created by Mitch Treece on 6/10/16.
-//
+//  Broadcast
 //
 
 import Foundation
@@ -14,7 +14,7 @@ public typealias SyncBlock = (Syncable) -> ()
 
 internal class SyncBlockContainer: NSObject {
     
-    static let key = "SyncBlockHolder.key"
+    static let key = "SyncBlockContainer.key"
     var block: SyncBlock
     
     init(block: SyncBlock) {
@@ -23,6 +23,10 @@ internal class SyncBlockContainer: NSObject {
     
 }
 
+/**
+ The `Syncable` protocol defines an object who can notify other instances of itself when property changes occur.
+ Objects wishing to conform to `Syncable` simply need to supply a `syncId`, and call `makeSyncable()` upon initialization.
+ */
 public protocol Syncable: class {
     
     var syncId: String { get }
@@ -39,7 +43,7 @@ public extension Syncable {
             
             container.block(localSelf)
             
-            // Notify for reactable
+            // Broadcast the update to reactables
             if let reactable = localSelf as? Reactable {
                 reactable.broadcast()
             }
