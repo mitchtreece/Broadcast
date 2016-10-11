@@ -22,13 +22,12 @@ class PostCell: UITableViewCell {
     var post: Post? {
         didSet {
             
-            if let post = post {
-                updateUI(post)
-                reactObserver = post.react { notification in
-                    self.updateUI(post)
-                }
+            guard let post = post else { return }
+            
+            layout(with: post)
+            reactObserver = post.react { notification in
+                self.updateUI(with: post)
             }
-
             
         }
     }
@@ -36,17 +35,25 @@ class PostCell: UITableViewCell {
     override func awakeFromNib() {
         
         super.awakeFromNib()
-        self.selectionStyle = .None
+        self.selectionStyle = .none
         
         cellContentView.layer.cornerRadius = 4
         cellContentView.layer.masksToBounds = true
         
     }
     
-    private func updateUI(post: Post) {
-        identifierLabel.text = "postId: \(post.postId)"
+    private func layout(with post: Post) {
+        
+        updateUI(with: post)
+        
+    }
+    
+    private func updateUI(with post: Post) {
+        
+        identifierLabel.text = "id: \(post.postId)"
         postTextLabel.text = post.text
         likesLabel.text = "❤️: \(post.numberOfLikes)"
+        
     }
     
 }

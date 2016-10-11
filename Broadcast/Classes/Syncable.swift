@@ -17,7 +17,7 @@ internal class SyncBlockContainer: NSObject {
     static let key = "SyncBlockContainer.key"
     var block: SyncBlock
     
-    init(block: SyncBlock) {
+    init(block: @escaping SyncBlock) {
         self.block = block
     }
     
@@ -39,7 +39,7 @@ public extension Syncable {
         
         let observer = SyncObserver(name: notificationName(), object: nil) { [weak self] (notification) in
             
-            guard let localSelf = self, info = notification.userInfo, container = info[SyncBlockContainer.key] as? SyncBlockContainer else { return }
+            guard let localSelf = self, let info = (notification as NSNotification).userInfo, let container = info[SyncBlockContainer.key] as? SyncBlockContainer else { return }
             
             container.block(localSelf)
             
@@ -54,14 +54,14 @@ public extension Syncable {
         
     }
     
-    func sync(block: SyncBlock) {
+    func sync(_ block: @escaping SyncBlock) {
         let container = SyncBlockContainer(block: block)
         let info: [String: AnyObject] = [SyncBlockContainer.key: container]
-        NSNotificationCenter.defaultCenter().postNotificationName(notificationName(), object: nil, userInfo: info)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: notificationName()), object: nil, userInfo: info)
     }
     
     internal func notificationName() -> String {
-        return NSStringFromClass(self.dynamicType) + "_" + syncId + ".sync"
+        return NSStringFromClass(type(of: self)) + "_" + syncId + ".sync"
     }
     
 }

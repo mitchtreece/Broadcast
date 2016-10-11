@@ -29,17 +29,17 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         tableView.rowHeight = UITableViewAutomaticDimension
-        tableView.tableFooterView = UIView(frame: CGRectZero)
+        tableView.tableFooterView = UIView(frame: CGRect.zero)
         tableView.contentInset = UIEdgeInsetsMake(0, 0, 8, 0)
         
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
     
     @IBAction func pushButtonTapped() {
-        let vc = storyboard?.instantiateViewControllerWithIdentifier("ViewController") as! ViewController
+        let vc = storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
         vc.posts = self.posts
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -52,30 +52,30 @@ class ViewController: UIViewController {
 
 extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return posts.count
     }
     
-    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return 100
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell =  tableView.dequeueReusableCellWithIdentifier("PostCell") as! PostCell
-        let post = posts[indexPath.row]
+        let cell =  tableView.dequeueReusableCell(withIdentifier: "PostCell") as! PostCell
+        let post = posts[(indexPath as NSIndexPath).row]
         cell.post = post
         return cell
         
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let post = posts[indexPath.row]
+        let post = posts[(indexPath as NSIndexPath).row]
         
         post.sync { (syncable) in
             guard let post = syncable as? Post else { return }

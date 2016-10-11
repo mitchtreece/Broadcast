@@ -8,7 +8,7 @@
 
 import Foundation
 
-public typealias ReactBlock = (NSNotification) -> ()
+public typealias ReactBlock = (Notification) -> ()
 
 /**
  The `Reactable` protocol defines an object that listens for property changes broadcasted via the `Syncable` protocol.
@@ -21,16 +21,16 @@ public protocol Reactable: class {
 
 public extension Reactable {
     
-    func react(block: ReactBlock) -> ReactObserver {
+    func react(_ block: @escaping ReactBlock) -> ReactObserver {
         return ReactObserver(name: notificationName(), object: self, block: block)
     }
     
     func broadcast() {
-        NSNotificationCenter.defaultCenter().postNotificationName(notificationName(), object: self, userInfo: nil)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: notificationName()), object: self, userInfo: nil)
     }
     
     internal func notificationName() -> String {
-        return NSStringFromClass(self.dynamicType) + "_" + reactId + ".react"
+        return NSStringFromClass(type(of: self)) + "_" + reactId + ".react"
     }
     
 }

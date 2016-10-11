@@ -16,10 +16,12 @@ class Post {
     var numberOfLikes: Int
     
     init(postId: String, text: String, numberOfLikes: Int) {
+        
         self.postId = postId
         self.text = text
         self.numberOfLikes = numberOfLikes
         makeSyncable()
+        
     }
     
 }

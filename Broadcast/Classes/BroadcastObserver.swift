@@ -19,14 +19,14 @@ public class BroadcastObserver {
     private let observer: AnyObject?
     private let name: String
     
-    internal init(name: String, object: AnyObject?, block: (NSNotification) -> ()) {
-        self.observer = NSNotificationCenter.defaultCenter().addObserverForName(name, object: object, queue: NSOperationQueue.mainQueue(), usingBlock: block)
+    internal init(name: String, object: AnyObject?, block: @escaping (Notification) -> ()) {
+        self.observer = NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: name), object: object, queue: OperationQueue.main, using: block)
         self.name = name
     }
     
     deinit {
         if let observer = observer {
-            NSNotificationCenter.defaultCenter().removeObserver(observer)
+            NotificationCenter.default.removeObserver(observer)
         }
     }
     
