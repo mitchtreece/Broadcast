@@ -17,7 +17,7 @@ class PostCell: UITableViewCell {
     @IBOutlet weak var postTextLabel: UILabel!
     @IBOutlet weak var likesLabel: UILabel!
     
-    private var reactObserver: ReactObserver?
+    private var updateObserver: BroadcastObserver?
     
     var post: Post? {
         didSet {
@@ -25,7 +25,7 @@ class PostCell: UITableViewCell {
             guard let post = post else { return }
             
             layout(with: post)
-            reactObserver = post.react { notification in
+            updateObserver = post.update { notification in
                 self.updateUI(with: post)
             }
             

@@ -26,9 +26,9 @@ class Post {
     
 }
 
-extension Post: Dynamic {
+extension Post: Broadcastable {
     
-    var dynamicId: String {
+    var broadcastId: String {
         return postId
     }
     

@@ -9,9 +9,7 @@
 /* Begin PBXBuildFile section */
 		1450FB52D1840A33350FB293327E2703 /* Pods-Broadcast_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = C15952F3CC0E5D162BEDE6113B7C482B /* Pods-Broadcast_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		302EEA3A1D0B557B0060ADBB /* BroadcastObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302EEA391D0B557B0060ADBB /* BroadcastObserver.swift */; };
-		302EEA3C1D0B567D0060ADBB /* Syncable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302EEA3B1D0B567D0060ADBB /* Syncable.swift */; };
-		302EEA3E1D0B59150060ADBB /* Reactable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302EEA3D1D0B59150060ADBB /* Reactable.swift */; };
-		302EEA401D0B5A4E0060ADBB /* Dynamic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302EEA3F1D0B5A4E0060ADBB /* Dynamic.swift */; };
+		302EEA401D0B5A4E0060ADBB /* Broadcastable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302EEA3F1D0B5A4E0060ADBB /* Broadcastable.swift */; };
 		37408B0F2A968E6C22229294211D4AA9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC22C73C1608DFA5D5D78BDCB218219 /* Foundation.framework */; };
 		4B6FEEC3718265ADD592FC2562A75E4E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC22C73C1608DFA5D5D78BDCB218219 /* Foundation.framework */; };
 		5291808E3CD277BD64942493A6104C0F /* Broadcast-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D686A8A5431161A3C436EDE70D4B7F /* Broadcast-dummy.m */; };
@@ -39,9 +37,7 @@
 		226A74033A80B0CDC7D01A1909B05B38 /* Pods-Broadcast_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-Broadcast_Tests.modulemap"; sourceTree = "<group>"; };
 		273542444A3A3BD178AA3CDA24767CB2 /* Pods-Broadcast_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Broadcast_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
 		302EEA391D0B557B0060ADBB /* BroadcastObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BroadcastObserver.swift; sourceTree = "<group>"; };
-		302EEA3B1D0B567D0060ADBB /* Syncable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Syncable.swift; sourceTree = "<group>"; };
-		302EEA3D1D0B59150060ADBB /* Reactable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reactable.swift; sourceTree = "<group>"; };
-		302EEA3F1D0B5A4E0060ADBB /* Dynamic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dynamic.swift; sourceTree = "<group>"; };
+		302EEA3F1D0B5A4E0060ADBB /* Broadcastable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Broadcastable.swift; sourceTree = "<group>"; };
 		377EA217807279E91B915AFA23923482 /* Pods-Broadcast_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Broadcast_Tests-dummy.m"; sourceTree = "<group>"; };
 		38D686A8A5431161A3C436EDE70D4B7F /* Broadcast-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Broadcast-dummy.m"; sourceTree = "<group>"; };
 		3F23024EA5551B8F4FFBE44602879302 /* Pods-Broadcast_Example-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Broadcast_Example-resources.sh"; sourceTree = "<group>"; };
@@ -144,9 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				302EEA391D0B557B0060ADBB /* BroadcastObserver.swift */,
-				302EEA3F1D0B5A4E0060ADBB /* Dynamic.swift */,
-				302EEA3B1D0B567D0060ADBB /* Syncable.swift */,
-				302EEA3D1D0B59150060ADBB /* Reactable.swift */,
+				302EEA3F1D0B5A4E0060ADBB /* Broadcastable.swift */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -363,10 +357,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				5291808E3CD277BD64942493A6104C0F /* Broadcast-dummy.m in Sources */,
-				302EEA401D0B5A4E0060ADBB /* Dynamic.swift in Sources */,
-				302EEA3E1D0B59150060ADBB /* Reactable.swift in Sources */,
+				302EEA401D0B5A4E0060ADBB /* Broadcastable.swift in Sources */,
 				302EEA3A1D0B557B0060ADBB /* BroadcastObserver.swift in Sources */,
-				302EEA3C1D0B567D0060ADBB /* Syncable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

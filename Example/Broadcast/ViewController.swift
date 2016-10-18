@@ -77,8 +77,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         
         let post = posts[(indexPath as NSIndexPath).row]
         
-        post.sync { (syncable) in
-            guard let post = syncable as? Post else { return }
+        post.broadcast { (broadcastable) in
+            guard let post = broadcastable as? Post else { return }
             post.numberOfLikes += 1
         }
         

@@ -10,12 +10,12 @@
 		302EEA441D0B5BEC0060ADBB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302EEA411D0B5BEC0060ADBB /* ViewController.swift */; };
 		302EEA451D0B5BEC0060ADBB /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302EEA421D0B5BEC0060ADBB /* PostCell.swift */; };
 		302EEA461D0B5BEC0060ADBB /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302EEA431D0B5BEC0060ADBB /* Post.swift */; };
+		30EAB6D51DB68CAB00D79B37 /* BroadcastTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30EAB6D41DB68CAB00D79B37 /* BroadcastTests.swift */; };
 		359F41A11B6AD0FB51B30C52 /* Pods_Broadcast_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00F4647CF663326E4B738751 /* Pods_Broadcast_Example.framework */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
-		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
 		A97AEBA2414114D7E0C7B88F /* Pods_Broadcast_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F1CA413E1671610424B15B9 /* Pods_Broadcast_Tests.framework */; };
 /* End PBXBuildFile section */
 
@@ -34,6 +34,7 @@
 		302EEA411D0B5BEC0060ADBB /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		302EEA421D0B5BEC0060ADBB /* PostCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		302EEA431D0B5BEC0060ADBB /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		30EAB6D41DB68CAB00D79B37 /* BroadcastTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BroadcastTests.swift; sourceTree = "<group>"; };
 		4F1CA413E1671610424B15B9 /* Pods_Broadcast_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Broadcast_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		50D7507482A15FA843C72AE4 /* Pods-Broadcast_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Broadcast_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Broadcast_Tests/Pods-Broadcast_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* Broadcast_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Broadcast_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -44,7 +45,6 @@
 		607FACDF1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		607FACE51AFB9204008FA782 /* Broadcast_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Broadcast_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		791326BE20FA24A3E653B969 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		9EDF1A653061A022C803D52A /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		BCAA953761AAD41C7660D119 /* Pods-Broadcast_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Broadcast_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-Broadcast_Example/Pods-Broadcast_Example.release.xcconfig"; sourceTree = "<group>"; };
@@ -121,7 +121,7 @@
 		607FACE81AFB9204008FA782 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				607FACEB1AFB9204008FA782 /* Tests.swift */,
+				30EAB6D41DB68CAB00D79B37 /* BroadcastTests.swift */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 			);
 			path = Tests;
@@ -378,7 +378,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				607FACEC1AFB9204008FA782 /* Tests.swift in Sources */,
+				30EAB6D51DB68CAB00D79B37 /* BroadcastTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
