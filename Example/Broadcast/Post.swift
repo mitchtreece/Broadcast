@@ -20,7 +20,6 @@ class Post {
         self.postId = postId
         self.text = text
         self.numberOfLikes = numberOfLikes
-        makeSyncable()
         
     }
     
@@ -31,5 +30,5 @@ extension Post: Broadcastable {
     var broadcastId: String {
         return postId
     }
-    
+        
 }

@@ -9,7 +9,7 @@
 import Foundation
 
 /**
- `BroadcastObserver` is a simple block-based wrapper over `NSNotificationCenter` observation.
+ `BroadcastObserver` is a simple block-based wrapper over `NotificationCenter` observation.
  */
 public class BroadcastObserver {
     
@@ -17,14 +17,17 @@ public class BroadcastObserver {
     private let name: String
     
     internal init(name: String, object: Any?, block: @escaping (Notification) -> ()) {
+        
         self.observer = NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: name), object: object, queue: OperationQueue.main, using: block)
         self.name = name
+        
     }
     
     deinit {
-        if let observer = observer {
-            NotificationCenter.default.removeObserver(observer)
-        }
+        
+        guard let observer = observer else { return }
+        NotificationCenter.default.removeObserver(observer)
+        
     }
     
 }

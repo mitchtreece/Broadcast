@@ -8,11 +8,10 @@
 
 import Foundation
 
-public typealias BroadcastUpdateBlock = (Notification) -> ()
-
 internal var BroadcastObserverAssociationToken: UInt8 = 0
 
-public typealias BroadcastBlock = (Broadcastable) -> ()
+public typealias BroadcastBlock = () -> ()
+public typealias BroadcastUpdateBlock = (Notification) -> ()
 
 internal class BroadcastBlockContainer: NSObject {
     
@@ -26,9 +25,8 @@ internal class BroadcastBlockContainer: NSObject {
 }
 
 /**
- The `Dynamic` protocol is a composition of the `Syncable` and `Reactable` protocols.
- When an object conforms to the `Dynamic` protocol, it only needs to supply a `dynamicId`.
- This identifier will be used for both it's `syncId`, and `reactId`.
+ The `Broadcastable` protocol defines an object that can notify and react when property changes occur.
+ Objects wishing to conform to `Broadcastable` simply need to supply a `broadcastId`.
  */
 public protocol Broadcastable: class {
     
@@ -36,19 +34,19 @@ public protocol Broadcastable: class {
     
 }
 
-public extension Broadcastable {
+public extension Broadcastable /* Broadcasts */ {
     
-    func makeSyncable() {
+    // MARK: Internal
+    
+    internal func setupBroadcastObserver() {
         
-        let observer = BroadcastObserver(name: broadcastNotificationName(), object: nil) { [weak self] (notification) in
+        let observer = BroadcastObserver(name: broadcastNotificationName() + ".synchronize", object: nil) { [weak self] (notification) in
             
-            guard let localSelf = self else { return }
-            guard let info = (notification as NSNotification).userInfo, let container = info[BroadcastBlockContainer.key] as? BroadcastBlockContainer else { return }
+            guard let _self = self else { return }
+            guard let info = (notification as Notification).userInfo, let container = info[BroadcastBlockContainer.key] as? BroadcastBlockContainer else { return }
             
-            container.block(localSelf)
-            
-            // Broadcast the react update
-            localSelf.notify()
+            container.block()            
+            _self.updateNotify()
             
         }
         
@@ -56,39 +54,43 @@ public extension Broadcastable {
         
     }
     
-    func broadcast(_ block: @escaping BroadcastBlock) {
-
+    // MARK: Public
+    
+    func synchronize(_ block: @escaping BroadcastBlock) {
+        
+        if objc_getAssociatedObject(self, &BroadcastObserverAssociationToken) == nil {
+            setupBroadcastObserver()
+        }
+        
         let container = BroadcastBlockContainer(block: block)
-        let info: [String: AnyObject] = [BroadcastBlockContainer.key: container]
-        NotificationCenter.default.post(name: Notification.Name(rawValue: broadcastNotificationName()), object: nil, userInfo: info)
+        let info: [String: Any] = [BroadcastBlockContainer.key: container]
+        NotificationCenter.default.post(name: Notification.Name(rawValue: broadcastNotificationName() + ".synchronize"), object: nil, userInfo: info)
 
     }
     
     internal func broadcastNotificationName() -> String {
         
-        return NSStringFromClass(type(of: self)) + "_" + broadcastId + ".broadcast"
+        return NSStringFromClass(type(of: self)) + "_" + broadcastId
         
     }
     
 }
 
-public extension Broadcastable {
+public extension Broadcastable /* Updates */ {
+    
+    // MARK: Internal
+    
+    internal func updateNotify() {
+        
+        NotificationCenter.default.post(name: Notification.Name(rawValue: broadcastNotificationName() + ".update"), object: self, userInfo: nil)
+        
+    }
+    
+    // MARK: Public
     
     func update(_ block: @escaping BroadcastUpdateBlock) -> BroadcastObserver {
         
-        return BroadcastObserver(name: updateNotificationName(), object: self, block: block)
-        
-    }
-    
-    internal func notify() {
-        
-        NotificationCenter.default.post(name: Notification.Name(rawValue: updateNotificationName()), object: self, userInfo: nil)
-        
-    }
-    
-    internal func updateNotificationName() -> String {
-        
-        return NSStringFromClass(type(of: self)) + "_" + broadcastId + ".update"
+        return BroadcastObserver(name: broadcastNotificationName() + ".update", object: self, block: block)
         
     }
     

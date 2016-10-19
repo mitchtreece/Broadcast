@@ -29,86 +29,54 @@ You can also manually add the source files to your project.
 2. Add all the Swift files in the `Broadcast/` subdirectory to your project
 3. Profit
 
-## Syncable & Reactable
-The `Syncable` and `Reactable` protocols are the bread-and-butter of Broadcast.
-
-### Syncable
-Objects conforming to `Syncable` will notify all instances of itself when property changes
-occur. To conform to `Syncable`, an object simply needs to return a sync identifier, and call
-`makeSyncable()` upon initialization.
+## Broadcastable
+The `Broadcastable` protocol defines an object that can notify and react when property changes occur.
+To conform to `Broadcastable`, an object simply needs to return a broadcast identifier. This identifier
+will be used to identify matching instances and notify them of changes.
 
 ```swift
-class Post: Syncable {
+class Post: Broadcastable {
 
     var postId: String
     var numberOfLikes: Int
 
-    var syncId: String {
+    var broadcastId: String {
         return postId
     }
 
     init(postId: String, numberOfLikes: Int) {
         self.postId = postId
         self.numberOfLikes = numberOfLikes
-        makeSyncable()
     }
 
 }
 ```
 
-Now, any property changes made inside a sync block will be propagated to all instances of an object
-that share the same sync identifier.
+### Synchronization
+Any changes made inside a synchronization block will be propagated to all instances of an object that share the same broadcast identifier.
 
 ```swift
-let post = Post(postId: "post_0", numberOfLikes: 3)
-post.sync { syncable in
-    guard let post = syncable as? Post else { return }
+post.synchronize {
     post.numberOfLikes += 1
 }
 ```
 
-### Reactable
-Objects conforming to `Reactable` can be externally observed for property changes. Like `Syncable`, all you need to do is return
-a react identifier.
-
-```swift
-class Post: Syncable, Reactable {
-
-    var postId: String
-    var numberOfLikes: Int
-
-    var syncId: String {
-        return postId
-    }
-
-    var reactId: String {
-        return postId
-    }
-
-    init(postId: String, numberOfLikes: Int) {
-        self.postId = postId
-        self.numberOfLikes = numberOfLikes
-        makeSyncable()
-    }
-
-}
-```
-
-Now property changes can be observed, and reacted upon! This is especially useful when binding UI elements to an object's state.
+### Observation
+Objects conforming to `Broadcastable` can be externally observed for changes. This is extremely useful when you need to bind your UI to an object's properties.
 
 ```swift
 class PostCell: UITableViewCell {
 
-    private var reactObserver: ReactObserver?
+    private var updateObserver: BroadcastObserver?
 
     var post: Post? {
         didSet {
 
-            if let post = post {
-                layoutUI(with: post)
-                reactObserver = post.react { notification in
-                    updateUI(with: post)
-                }
+            guard let post = post else { return }
+
+            layoutUI(with: post)
+            updateObserver = post.update { notification in
+                self.updateUI(with: post)
             }
 
         }
@@ -119,27 +87,5 @@ class PostCell: UITableViewCell {
 }
 ```
 
-### Dynamic
-Often times your objects will be `Syncable` & `Reactable`. You could conform to each protocol individually, but implementing
-a sync & react identifier can get repetitive. That's where the `Dynamic` protocol comes in. The `Dynamic` protocol is a composition
-of `Syncable` & `Reactable`. Objects conforming to `Dynamic` just need to provide a dynamic identifier, the sync & react identifiers
-will be automatically asigned for you. **You still need to call `makeSyncable()` upon an object's initialization**.
-
-```swift
-class Post: Dynamic {
-
-    var postId: String
-    var numberOfLikes: Int
-
-    var dynamicId: String {
-        return postId
-    }
-
-    init(postId: String, numberOfLikes: Int) {
-        self.postId = postId
-        self.numberOfLikes = numberOfLikes
-        makeSyncable()
-    }
-
-}
-```
+### BroadcastObserver
+The `BroadcastObserver` class is a simple block-based wrapper over `NotificationCenter` observation. It automatically handles observer removal on de-initialization.

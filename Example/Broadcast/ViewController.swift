@@ -67,7 +67,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell =  tableView.dequeueReusableCell(withIdentifier: "PostCell") as! PostCell
-        let post = posts[(indexPath as NSIndexPath).row]
+        let post = posts[indexPath.row]
         cell.post = post
         return cell
         
@@ -75,10 +75,9 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let post = posts[(indexPath as NSIndexPath).row]
+        let post = posts[indexPath.row]
         
-        post.broadcast { (broadcastable) in
-            guard let post = broadcastable as? Post else { return }
+        post.synchronize {
             post.numberOfLikes += 1
         }
         
