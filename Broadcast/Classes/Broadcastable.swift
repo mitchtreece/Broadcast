@@ -10,8 +10,8 @@ import Foundation
 
 internal var BroadcastObserverAssociationToken: UInt8 = 0
 
-public typealias BroadcastBlock = () -> ()
-public typealias BroadcastUpdateBlock = (Notification) -> ()
+public typealias BroadcastBlock = ()->()
+public typealias BroadcastUpdateBlock = (Notification)->()
 
 internal class BroadcastBlockContainer: NSObject {
     
@@ -54,6 +54,12 @@ public extension Broadcastable /* Broadcasts */ {
         
     }
     
+    internal func broadcastNotificationName() -> String {
+        
+        return NSStringFromClass(type(of: self)) + "_" + broadcastId
+        
+    }
+    
     // MARK: Public
     
     func synchronize(_ block: @escaping BroadcastBlock) {
@@ -66,12 +72,6 @@ public extension Broadcastable /* Broadcasts */ {
         let info: [String: Any] = [BroadcastBlockContainer.key: container]
         NotificationCenter.default.post(name: Notification.Name(rawValue: broadcastNotificationName() + ".synchronize"), object: nil, userInfo: info)
 
-    }
-    
-    internal func broadcastNotificationName() -> String {
-        
-        return NSStringFromClass(type(of: self)) + "_" + broadcastId
-        
     }
     
 }
