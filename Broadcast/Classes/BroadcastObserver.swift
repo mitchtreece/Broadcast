@@ -8,26 +8,27 @@
 
 import Foundation
 
-public typealias SyncObserver = BroadcastObserver
-public typealias ReactObserver = BroadcastObserver
-
 /**
- `BroadcastObserver` is a simple block-based wrapper over `NSNotificationCenter` observation.
+ `BroadcastObserver` is a simple block-based wrapper over `NotificationCenter` observation.
  */
 public class BroadcastObserver {
     
-    private let observer: AnyObject?
+    private let observer: Any?
     private let name: String
     
-    internal init(name: String, object: AnyObject?, block: @escaping (Notification) -> ()) {
-        self.observer = NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: name), object: object, queue: OperationQueue.main, using: block)
+    internal init(name: String, object: Any?, block: @escaping (Notification) -> ()) {
+        
+        let notificationName = NSNotification.Name(rawValue: name)
+        self.observer = NotificationCenter.default.addObserver(forName: notificationName, object: object, queue: OperationQueue.main, using: block)
         self.name = name
+        
     }
     
     deinit {
-        if let observer = observer {
-            NotificationCenter.default.removeObserver(observer)
-        }
+        
+        guard let observer = observer else { return }
+        NotificationCenter.default.removeObserver(observer)
+        
     }
     
 }

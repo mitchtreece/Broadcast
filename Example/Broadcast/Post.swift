@@ -20,16 +20,15 @@ class Post {
         self.postId = postId
         self.text = text
         self.numberOfLikes = numberOfLikes
-        makeSyncable()
         
     }
     
 }
 
-extension Post: Dynamic {
+extension Post: Broadcastable {
     
-    var dynamicId: String {
+    var broadcastId: String {
         return postId
     }
-    
+        
 }
