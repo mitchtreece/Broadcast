@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		26E5DE0B1E5E3C06008494EE /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E5DE0A1E5E3C06008494EE /* DataManager.swift */; };
 		302EEA441D0B5BEC0060ADBB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302EEA411D0B5BEC0060ADBB /* ViewController.swift */; };
 		302EEA451D0B5BEC0060ADBB /* PostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302EEA421D0B5BEC0060ADBB /* PostCell.swift */; };
 		302EEA461D0B5BEC0060ADBB /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302EEA431D0B5BEC0060ADBB /* Post.swift */; };
@@ -31,6 +32,7 @@
 
 /* Begin PBXFileReference section */
 		00F4647CF663326E4B738751 /* Pods_Broadcast_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Broadcast_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		26E5DE0A1E5E3C06008494EE /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		302EEA411D0B5BEC0060ADBB /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		302EEA421D0B5BEC0060ADBB /* PostCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostCell.swift; sourceTree = "<group>"; };
 		302EEA431D0B5BEC0060ADBB /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
@@ -99,6 +101,7 @@
 			children = (
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				302EEA411D0B5BEC0060ADBB /* ViewController.swift */,
+				26E5DE0A1E5E3C06008494EE /* DataManager.swift */,
 				302EEA421D0B5BEC0060ADBB /* PostCell.swift */,
 				302EEA431D0B5BEC0060ADBB /* Post.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
@@ -368,6 +371,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				302EEA441D0B5BEC0060ADBB /* ViewController.swift in Sources */,
+				26E5DE0B1E5E3C06008494EE /* DataManager.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				302EEA451D0B5BEC0060ADBB /* PostCell.swift in Sources */,
 				302EEA461D0B5BEC0060ADBB /* Post.swift in Sources */,

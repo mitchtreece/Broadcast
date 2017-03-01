@@ -12,18 +12,6 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    var posts: [Post] = [
-        Post(postId: "0", text: "This is a post! w00t w00t!", numberOfLikes: 0),
-        Post(postId: "1", text: "Hello, world!", numberOfLikes: 0),
-        Post(postId: "2", text: "This post is really long. It just keeps going and going and going and going. Amazing! 😎", numberOfLikes: 0),
-        Post(postId: "3", text: "blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah ", numberOfLikes: 0),
-        Post(postId: "4", text: "Come with me if you want to live.", numberOfLikes: 0),
-        Post(postId: "5", text: "🤑🤑🤑🤑🤑👻👻👻👻👻😨😨😨😨😨", numberOfLikes: 0),
-        Post(postId: "6", text: "All your bases are belonging to us.", numberOfLikes: 0),
-        Post(postId: "7", text: "Hello from the other sideeeeeeeeee", numberOfLikes: 0),
-        Post(postId: "8", text: "Yay everything is up-to-date! How magical! 🎩", numberOfLikes: 0),
-    ]
-    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -40,7 +28,6 @@ class ViewController: UIViewController {
     
     @IBAction func pushButtonTapped() {
         let vc = storyboard?.instantiateViewController(withIdentifier: "ViewController") as! ViewController
-        vc.posts = self.posts
         navigationController?.pushViewController(vc, animated: true)
     }
 
@@ -57,7 +44,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return posts.count
+        return DataManager.shared.posts.count
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -67,7 +54,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell =  tableView.dequeueReusableCell(withIdentifier: "PostCell") as! PostCell
-        let post = posts[indexPath.row]
+        let post = DataManager.shared.posts[indexPath.row]
         cell.post = post
         return cell
         
@@ -75,10 +62,10 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let post = posts[indexPath.row]
-        
-        post.synchronize {
-            post.numberOfLikes += 1
+        let post = DataManager.shared.posts[indexPath.row]
+        post.synchronize { (aPost) in
+            guard let aPost = aPost as? Post else { return }
+            aPost.numberOfLikes += 1
         }
         
     }

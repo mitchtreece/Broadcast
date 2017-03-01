@@ -8,17 +8,17 @@
 
 import Foundation
 
-internal var BroadcastObserverAssociationToken: UInt8 = 0
+public var BroadcastObserverAssociationToken: UInt8 = 0
 
-public typealias BroadcastBlock = ()->()
+public typealias BroadcastBlock = (Broadcastable)->()
 public typealias BroadcastUpdateBlock = (Notification)->()
 
-internal class BroadcastBlockContainer: NSObject {
+public class BroadcastBlockContainer: NSObject {
     
-    static let key = "BroadcastBlockContainer.key"
-    var block: BroadcastBlock
+    public static let key = "BroadcastBlockContainer.key"
+    public private(set) var block: BroadcastBlock
     
-    init(block: @escaping BroadcastBlock) {
+    public init(block: @escaping BroadcastBlock) {
         self.block = block
     }
     
@@ -28,9 +28,17 @@ internal class BroadcastBlockContainer: NSObject {
  The `Broadcastable` protocol defines an object that can notify and react when property changes occur.
  Objects wishing to conform to `Broadcastable` simply need to supply a `broadcastId`.
  */
-public protocol Broadcastable: class {
+@objc public protocol Broadcastable: class {
     
     var broadcastId: String { get }
+    
+    @objc(synchronize:)
+    optional func synchronize(_ block: @escaping BroadcastBlock)
+    
+    @objc(update:)
+    optional func update(_ block: @escaping BroadcastUpdateBlock) -> BroadcastObserver
+    
+    @objc func makeBroadcastable()
     
 }
 
@@ -38,14 +46,14 @@ public extension Broadcastable /* Broadcasts */ {
     
     // MARK: Internal
     
-    internal func setupBroadcastObserver() {
+    public func makeBroadcastable() {
         
         let observer = BroadcastObserver(name: broadcastNotificationName() + ".synchronize", object: nil) { [weak self] (notification) in
-            
+
             guard let _self = self else { return }
-            guard let info = (notification as Notification).userInfo, let container = info[BroadcastBlockContainer.key] as? BroadcastBlockContainer else { return }
-            
-            container.block()            
+            guard let info = notification.userInfo, let container = info[BroadcastBlockContainer.key] as? BroadcastBlockContainer else { return }
+
+            container.block(_self)
             _self.updateNotify()
             
         }
@@ -62,15 +70,12 @@ public extension Broadcastable /* Broadcasts */ {
     
     // MARK: Public
     
-    func synchronize(_ block: @escaping BroadcastBlock) {
-        
-        if objc_getAssociatedObject(self, &BroadcastObserverAssociationToken) == nil {
-            setupBroadcastObserver()
-        }
+    public func synchronize(_ block: @escaping BroadcastBlock) {
         
         let container = BroadcastBlockContainer(block: block)
         let info: [String: Any] = [BroadcastBlockContainer.key: container]
-        NotificationCenter.default.post(name: Notification.Name(rawValue: broadcastNotificationName() + ".synchronize"), object: nil, userInfo: info)
+        let name = broadcastNotificationName() + ".synchronize"
+        NotificationCenter.default.post(name: Notification.Name(rawValue: name), object: nil, userInfo: info)
 
     }
     
@@ -88,7 +93,7 @@ public extension Broadcastable /* Updates */ {
     
     // MARK: Public
     
-    func update(_ block: @escaping BroadcastUpdateBlock) -> BroadcastObserver {
+    public func update(_ block: @escaping BroadcastUpdateBlock) -> BroadcastObserver {
         
         return BroadcastObserver(name: broadcastNotificationName() + ".update", object: self, block: block)
         
