@@ -77,8 +77,8 @@ class PostCell: UITableViewCell {
             guard let post = post else { return }
 
             layoutUI(with: post)
-            updateObserver = post.update { notification in
-                self.updateUI(with: post)
+            updateObserver = post.update { [weak self] (notification) in
+                self?.updateUI(with: post)
             }
 
         }
@@ -91,3 +91,6 @@ class PostCell: UITableViewCell {
 
 ### BroadcastObserver
 The `BroadcastObserver` class is a simple block-based wrapper over `NotificationCenter` observation. It automatically handles observer removal on de-initialization.
+
+### Objective-C
+For those of you refusing to embrace the future, the latest release of Broadcast now has Objective-C compatibility. Broadcast relies heavily on Swift's awesome protocol features, some of which Objective-C doesn't support. Because of this, classes in Objective-C will need to inherit from the `BroadcastableObject` class instead of conforming to the `Broadcastable` protocol. Other than that, working with Broadcast should be the same.
