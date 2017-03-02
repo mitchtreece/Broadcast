@@ -2,8 +2,9 @@
 Lightweight instance syncing & property binding.
 
 [![Version](https://img.shields.io/cocoapods/v/Broadcast.svg?style=flat)](http://cocoapods.org/pods/Broadcast)
-[![License](https://img.shields.io/cocoapods/l/Broadcast.svg?style=flat)](http://cocoapods.org/pods/Broadcast)
+![Swift](https://img.shields.io/badge/Swift-3.0-orange.svg)
 [![Platform](https://img.shields.io/cocoapods/p/Broadcast.svg?style=flat)](http://cocoapods.org/pods/Broadcast)
+[![License](https://img.shields.io/cocoapods/l/Broadcast.svg?style=flat)](http://cocoapods.org/pods/Broadcast)
 
 ## Overview
 Broadcast is a quick-and-dirty solution for instance syncing and property binding. Similar things can be achieved with libraries
