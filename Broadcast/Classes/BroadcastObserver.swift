@@ -11,12 +11,12 @@ import Foundation
 /**
  `BroadcastObserver` is a simple block-based wrapper over `NotificationCenter` observation.
  */
-public class BroadcastObserver {
+public class BroadcastObserver: NSObject {
     
     private let observer: Any?
     private let name: String
     
-    internal init(name: String, object: Any?, block: @escaping (Notification) -> ()) {
+    public init(name: String, object: Any?, block: @escaping (Notification) -> ()) {
         
         let notificationName = NSNotification.Name(rawValue: name)
         self.observer = NotificationCenter.default.addObserver(forName: notificationName, object: object, queue: OperationQueue.main, using: block)

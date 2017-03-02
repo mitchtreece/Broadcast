@@ -31,8 +31,8 @@ You can also manually add the source files to your project.
 
 ## Broadcastable
 The `Broadcastable` protocol defines an object that can notify and react when property changes occur.
-To conform to `Broadcastable`, an object simply needs to return a broadcast identifier. This identifier
-will be used to identify matching instances and notify them of changes.
+To conform to `Broadcastable`, an object simply needs to return a broadcast identifier, and call `makeBroadcastable` when initialized.
+This identifier broadcast identifier will be used to identify matching instances and notify them of changes.
 
 ```swift
 class Post: Broadcastable {
@@ -47,6 +47,7 @@ class Post: Broadcastable {
     init(postId: String, numberOfLikes: Int) {
         self.postId = postId
         self.numberOfLikes = numberOfLikes
+        makeBroadcastable()
     }
 
 }
@@ -56,8 +57,9 @@ class Post: Broadcastable {
 Any changes made inside a synchronization block will be propagated to all instances of an object that share the same broadcast identifier.
 
 ```swift
-post.synchronize {
-    post.numberOfLikes += 1
+post.synchronize { (broadcastable) in
+    guard let _post = broadcastable as? Post else { return }
+    _post.numberOfLikes += 1
 }
 ```
 
@@ -75,8 +77,8 @@ class PostCell: UITableViewCell {
             guard let post = post else { return }
 
             layoutUI(with: post)
-            updateObserver = post.update { notification in
-                self.updateUI(with: post)
+            updateObserver = post.update { [weak self] (notification) in
+                self?.updateUI(with: post)
             }
 
         }
@@ -89,3 +91,6 @@ class PostCell: UITableViewCell {
 
 ### BroadcastObserver
 The `BroadcastObserver` class is a simple block-based wrapper over `NotificationCenter` observation. It automatically handles observer removal on de-initialization.
+
+### Objective-C
+For those of you refusing to embrace the future, the latest release of Broadcast now has Objective-C compatibility. Broadcast relies heavily on Swift's awesome protocol features, some of which Objective-C doesn't support. Because of this, classes in Objective-C will need to inherit from the `BroadcastableObject` class instead of conforming to the `Broadcastable` protocol. Other than that, working with Broadcast should be the same.

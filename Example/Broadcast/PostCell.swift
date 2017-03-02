@@ -25,8 +25,8 @@ class PostCell: UITableViewCell {
             guard let post = post else { return }
             
             layout(with: post)
-            updateObserver = post.update { notification in
-                self.updateUI(with: post)
+            updateObserver = post.update { [weak self] (notification) in
+                self?.updateUI(with: post)
             }
             
         }
