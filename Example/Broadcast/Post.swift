@@ -20,6 +20,7 @@ class Post {
         self.postId = postId
         self.text = text
         self.numberOfLikes = numberOfLikes
+        makeBroadcastable()
         
     }
     

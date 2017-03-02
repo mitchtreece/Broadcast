@@ -63,9 +63,10 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let post = DataManager.shared.posts[indexPath.row]
-        post.synchronize { (aPost) in
-            guard let aPost = aPost as? Post else { return }
-            aPost.numberOfLikes += 1
+        
+        post.synchronize { (broadcastable) in
+            guard let _post = broadcastable as? Post else { return }
+            _post.numberOfLikes += 1
         }
         
     }
