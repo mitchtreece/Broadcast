@@ -2,7 +2,7 @@
 Pod::Spec.new do |s|
 
   s.name             = "Broadcast"
-  s.version          = "1.2.0"
+  s.version          = "1.3.0"
   s.summary          = "Lightweight instance syncing & property binding."
   s.description      = <<-DESC
     Broadcast is a quick-and-dirty solution for instance syncing and property binding.
