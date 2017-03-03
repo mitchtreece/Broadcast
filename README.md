@@ -32,7 +32,7 @@ You can also manually add the source files to your project.
 
 ## Broadcastable
 The `Broadcastable` protocol defines an object that can notify and react when property changes occur.
-To conform to `Broadcastable`, an object simply needs to return a broadcast identifier, and call `makeBroadcastable` when initialized.
+To conform to `Broadcastable`, an object simply needs to return a broadcast identifier, and call `makeBroadcastable()` when initialized.
 This identifier broadcast identifier will be used to identify matching instances and notify them of changes.
 
 ```swift
