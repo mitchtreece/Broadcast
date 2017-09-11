@@ -10,12 +10,15 @@
 #import <Broadcast/Broadcast-Swift.h>
 
 @interface BroadcastableObject ()
+@property (nonatomic) NSString *broadcastId;
 @property (nonatomic) BroadcastObserver *observer;
 @end
 
 @implementation BroadcastableObject
 
-- (void)makeBroadcastable {
+- (void)makeBroadcastableWithId:(NSString *)broadcastId {
+    
+    self.broadcastId = broadcastId;
     
     NSString *syncName = [NSString stringWithFormat:@"%@.synchronize", [self broadcastNotificationName]];
     
