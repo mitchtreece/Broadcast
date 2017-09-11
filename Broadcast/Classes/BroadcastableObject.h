@@ -18,7 +18,7 @@ typedef void (^BroadcastUpdateBlock)(NSNotification * _Nonnull notification);
 
 @property (nonatomic, readonly, nonnull) NSString *broadcastId;
 
-- (void)makeBroadcastable;
+- (void)makeBroadcastableWithId:(NSString * _Nonnull)broadcastId;
 - (void)synchronize:(BroadcastBlock _Nonnull)block;
 - (BroadcastObserver * _Nonnull)update:(BroadcastUpdateBlock _Nonnull)block;
 
