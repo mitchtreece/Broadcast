@@ -11,6 +11,7 @@ import Foundation
 /**
  `BroadcastObserver` is a simple block-based wrapper over `NotificationCenter` observation.
  */
+@objcMembers
 public class BroadcastObserver: NSObject {
     
     private let observer: Any?
