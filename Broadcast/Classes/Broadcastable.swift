@@ -19,6 +19,7 @@ public typealias BroadcastUpdateBlock = (Notification)->()
  Unfortunately, to make this accessible to our `BroadcastableObject` Objective-C counterpart,
  This class needs to be marked public. This **should not** be used directly.
  */
+@objcMembers
 public class BroadcastBlockContainer: NSObject {
     
     public static let key = "BroadcastBlockContainer.key"
