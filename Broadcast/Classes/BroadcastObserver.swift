@@ -11,6 +11,7 @@ import Foundation
 /**
  `BroadcastObserver` is a simple block-based wrapper over `NotificationCenter` observation.
  */
+@objcMembers
 public class BroadcastObserver: NSObject {
     
     private let observer: Any?
@@ -18,7 +19,7 @@ public class BroadcastObserver: NSObject {
     
     public init(name: String, object: Any?, block: @escaping (Notification) -> ()) {
         
-        let notificationName = NSNotification.Name(rawValue: name)
+        let notificationName = Notification.Name(name)
         self.observer = NotificationCenter.default.addObserver(forName: notificationName, object: object, queue: OperationQueue.main, using: block)
         self.name = name
         

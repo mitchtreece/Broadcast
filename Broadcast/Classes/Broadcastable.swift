@@ -19,6 +19,7 @@ public typealias BroadcastUpdateBlock = (Notification)->()
  Unfortunately, to make this accessible to our `BroadcastableObject` Objective-C counterpart,
  This class needs to be marked public. This **should not** be used directly.
  */
+@objcMembers
 public class BroadcastBlockContainer: NSObject {
     
     public static let key = "BroadcastBlockContainer.key"
@@ -47,7 +48,6 @@ public protocol Broadcastable: class {
     var broadcastName: String? { get }
     func synchronize(_ block: @escaping BroadcastBlock)
     func update(_ block: @escaping BroadcastUpdateBlock) -> BroadcastObserver
-    func makeBroadcastable()
     
 }
 
@@ -60,9 +60,7 @@ public extension Broadcastable /* Broadcasts */ {
     // MARK: Internal
     
     internal func broadcastNotificationName() -> String {
-        
-        return (broadcastName ?? NSStringFromClass(type(of: self))) + "_" + broadcastId
-        
+      return (broadcastName ?? NSStringFromClass(type(of: self))) + "_" + broadcastId
     }
     
     // MARK: Public
@@ -96,7 +94,7 @@ public extension Broadcastable /* Broadcasts */ {
         let container = BroadcastBlockContainer(block: block)
         let info: [String: Any] = [BroadcastBlockContainer.key: container]
         let name = broadcastNotificationName() + ".synchronize"
-        NotificationCenter.default.post(name: Notification.Name(rawValue: name), object: nil, userInfo: info)
+        NotificationCenter.default.post(name: Notification.Name(name), object: nil, userInfo: info)
 
     }
     
@@ -108,7 +106,8 @@ public extension Broadcastable /* Updates */ {
     
     internal func updateNotify() {
         
-        NotificationCenter.default.post(name: Notification.Name(rawValue: broadcastNotificationName() + ".update"), object: self, userInfo: nil)
+        let name = Notification.Name(broadcastNotificationName() + ".update")
+        NotificationCenter.default.post(name: name, object: self, userInfo: nil)
         
     }
     
@@ -116,7 +115,8 @@ public extension Broadcastable /* Updates */ {
     
     public func update(_ block: @escaping BroadcastUpdateBlock) -> BroadcastObserver {
         
-        return BroadcastObserver(name: broadcastNotificationName() + ".update", object: self, block: block)
+        let name = broadcastNotificationName() + ".update"
+        return BroadcastObserver(name: name, object: self, block: block)
         
     }
     
