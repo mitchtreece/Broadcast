@@ -57,7 +57,7 @@
 
 - (NSString *)broadcastNotificationName {
     
-    return [NSString stringWithFormat:@"%@_%@", NSStringFromClass([self class]), self.broadcastId];
+    return [NSString stringWithFormat:@"%@_%@", self.broadcastName != nil ? self.broadcastName : NSStringFromClass([self class]), self.broadcastId];
     
 }
 

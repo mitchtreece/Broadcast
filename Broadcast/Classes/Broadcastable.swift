@@ -39,10 +39,12 @@ public class BroadcastBlockContainer: NSObject {
  The `Broadcastable` protocol defines an object that can notify and react when changes occur.
  Objects wishing to conform to `Broadcastable` simply need to supply a `broadcastId` & call
  `makeBroadcastable()` upon initialization (or anytime before calls to `synchronize()` happen).
+ You can specify a `broadcastName` if you want to sync between objects with different classes.
  */
 public protocol Broadcastable: class {
     
     var broadcastId: String { get }
+    var broadcastName: String? { get }
     func synchronize(_ block: @escaping BroadcastBlock)
     func update(_ block: @escaping BroadcastUpdateBlock) -> BroadcastObserver
     func makeBroadcastable()
@@ -51,11 +53,15 @@ public protocol Broadcastable: class {
 
 public extension Broadcastable /* Broadcasts */ {
     
+    // MARK: Default
+    
+    var broadcastName: String? { return nil }
+    
     // MARK: Internal
     
     internal func broadcastNotificationName() -> String {
         
-        return NSStringFromClass(type(of: self)) + "_" + broadcastId
+        return (broadcastName ?? NSStringFromClass(type(of: self))) + "_" + broadcastId
         
     }
     
