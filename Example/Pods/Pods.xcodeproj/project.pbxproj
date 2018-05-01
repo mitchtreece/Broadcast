@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1450FB52D1840A33350FB293327E2703 /* Pods-Broadcast_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = C15952F3CC0E5D162BEDE6113B7C482B /* Pods-Broadcast_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		265DE8762097D58A00CCFDA4 /* BroadcastMultiObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265DE8752097D58A00CCFDA4 /* BroadcastMultiObserver.swift */; };
 		26F06B671E68923100423310 /* BroadcastableObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 26F06B651E68923100423310 /* BroadcastableObject.h */; };
 		26F06B681E68923100423310 /* BroadcastableObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 26F06B661E68923100423310 /* BroadcastableObject.m */; };
 		302EEA3A1D0B557B0060ADBB /* BroadcastObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302EEA391D0B557B0060ADBB /* BroadcastObserver.swift */; };
@@ -37,6 +38,7 @@
 		211C90020627734DE53E6200EC04DD42 /* Pods_Broadcast_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Broadcast_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		21CD24C8A11DE08BD1506AF626695DBD /* Broadcast-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Broadcast-prefix.pch"; sourceTree = "<group>"; };
 		226A74033A80B0CDC7D01A1909B05B38 /* Pods-Broadcast_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-Broadcast_Tests.modulemap"; sourceTree = "<group>"; };
+		265DE8752097D58A00CCFDA4 /* BroadcastMultiObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BroadcastMultiObserver.swift; sourceTree = "<group>"; };
 		26F06B651E68923100423310 /* BroadcastableObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BroadcastableObject.h; sourceTree = "<group>"; };
 		26F06B661E68923100423310 /* BroadcastableObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BroadcastableObject.m; sourceTree = "<group>"; };
 		273542444A3A3BD178AA3CDA24767CB2 /* Pods-Broadcast_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Broadcast_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 			children = (
 				302EEA3F1D0B5A4E0060ADBB /* Broadcastable.swift */,
 				302EEA391D0B557B0060ADBB /* BroadcastObserver.swift */,
+				265DE8752097D58A00CCFDA4 /* BroadcastMultiObserver.swift */,
 				26F06B651E68923100423310 /* BroadcastableObject.h */,
 				26F06B661E68923100423310 /* BroadcastableObject.m */,
 			);
@@ -364,6 +367,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5291808E3CD277BD64942493A6104C0F /* Broadcast-dummy.m in Sources */,
+				265DE8762097D58A00CCFDA4 /* BroadcastMultiObserver.swift in Sources */,
 				302EEA401D0B5A4E0060ADBB /* Broadcastable.swift in Sources */,
 				26F06B681E68923100423310 /* BroadcastableObject.m in Sources */,
 				302EEA3A1D0B557B0060ADBB /* BroadcastObserver.swift in Sources */,
