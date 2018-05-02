@@ -8,7 +8,7 @@
 import Foundation
 
 /**
- `BroadcastMultiObserver` is a holder of multiple `BroadcastObservers`.
+ `BroadcastMultiObserver` is an observer over multiple `Broadcastable` objects.
  */
 public class BroadcastMultiObserver {
     

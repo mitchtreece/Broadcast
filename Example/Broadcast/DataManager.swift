@@ -25,12 +25,12 @@ class DataManager {
         Post(postId: "8", text: "Yay everything is up-to-date! How magical! 🎩", numberOfLikes: 0),
     ]
     
-    private var updateObserver: BroadcastMultiObserver?
+    private var updateObserver: BroadcastMultiObserver
     
     private init() {
         
         updateObserver = BroadcastMultiObserver(posts) { (notification) in
-            print("A post was updated!")
+            print("Something was updated!")
         }
         
     }

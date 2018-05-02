@@ -9,11 +9,15 @@
 import Foundation
 import Broadcast
 
-class Post {
+class Post: Broadcastable {
     
     var postId: String
     var text: String
     var numberOfLikes: Int
+    
+    var broadcastId: String {
+        return postId
+    }
     
     init(postId: String, text: String, numberOfLikes: Int) {
         
@@ -24,12 +28,4 @@ class Post {
         
     }
     
-}
-
-extension Post: Broadcastable {
-    
-    var broadcastId: String {
-        return postId
-    }
-        
 }
