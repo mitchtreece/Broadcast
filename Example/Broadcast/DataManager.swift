@@ -21,7 +21,7 @@ class DataManager {
         Post(postId: "5", text: "🤑🤑🤑🤑🤑👻👻👻👻👻😨😨😨😨😨", numberOfLikes: 0),
         Post(postId: "6", text: "All your bases are belonging to us.", numberOfLikes: 0),
         Post(postId: "7", text: "Hello from the other sideeeeeeeeee", numberOfLikes: 0),
-        Post(postId: "8", text: "Yay everything is up-to-date! How magical! 🎩", numberOfLikes: 0),
+        Post(postId: "8", text: "Yay everything is up-to-date! How magical! 🎩", numberOfLikes: 0)
     ]
     
 }

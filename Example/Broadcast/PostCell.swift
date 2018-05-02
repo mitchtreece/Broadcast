@@ -17,7 +17,7 @@ class PostCell: UITableViewCell {
     @IBOutlet weak var postTextLabel: UILabel!
     @IBOutlet weak var likesLabel: UILabel!
     
-    private var updateObserver: BroadcastObserver?
+    // private var updateObserver: BroadcastObserver?
     
     var post: Post? {
         didSet {
@@ -25,8 +25,9 @@ class PostCell: UITableViewCell {
             guard let post = post else { return }
             
             layout(with: post)
-            updateObserver = post.update { [weak self] (notification) in
-                self?.updateUI(with: post)
+
+            post.broadcast.listen { [weak self] in
+                self?.layout(with: post)
             }
             
         }
@@ -43,9 +44,7 @@ class PostCell: UITableViewCell {
     }
     
     private func layout(with post: Post) {
-        
         updateUI(with: post)
-        
     }
     
     private func updateUI(with post: Post) {

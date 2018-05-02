@@ -20,7 +20,7 @@ class Post {
         self.postId = postId
         self.text = text
         self.numberOfLikes = numberOfLikes
-        makeBroadcastable()
+        self.broadcast.make()
         
     }
     
@@ -31,5 +31,5 @@ extension Post: Broadcastable {
     var broadcastId: String {
         return postId
     }
-        
+    
 }
