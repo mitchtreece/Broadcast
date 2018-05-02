@@ -12,7 +12,6 @@ public var BroadcastObserverAssociationToken: UInt8 = 0
 
 public typealias BroadcastBlock = (Broadcastable)->()
 public typealias BroadcastBlockObjC = (Any)->()
-public typealias BroadcastUpdateBlock = (Notification)->()
 
 /**
  `BroadcastBlockContainer` is an internal object used to pass synchronization blocks around.
@@ -45,7 +44,7 @@ public protocol Broadcastable: class {
     
     var broadcastId: String { get }
     func synchronize(_ block: @escaping BroadcastBlock)
-    func update(_ block: @escaping BroadcastUpdateBlock) -> BroadcastObserver
+    func update(_ block: @escaping BroadcastObserver.Block) -> BroadcastObserver
     
 }
 
@@ -107,7 +106,7 @@ public extension Broadcastable /* Updates */ {
     
     // MARK: Public
     
-    public func update(_ block: @escaping BroadcastUpdateBlock) -> BroadcastObserver {
+    public func update(_ block: @escaping BroadcastObserver.Block) -> BroadcastObserver {
         
         let name = broadcastNotificationName() + ".update"
         return BroadcastObserver(name: name, object: self, block: block)

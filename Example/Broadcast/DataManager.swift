@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Broadcast
 
 class DataManager {
     
@@ -23,5 +24,15 @@ class DataManager {
         Post(postId: "7", text: "Hello from the other sideeeeeeeeee", numberOfLikes: 0),
         Post(postId: "8", text: "Yay everything is up-to-date! How magical! 🎩", numberOfLikes: 0),
     ]
+    
+    private var updateObserver: BroadcastMultiObserver
+    
+    private init() {
+        
+        updateObserver = BroadcastMultiObserver(posts) { (notification) in
+            print("Something was updated!")
+        }
+        
+    }
     
 }
