@@ -39,16 +39,22 @@ public class Broadcast<T: Broadcastable> {
     public typealias SignalBlock = (T)->()
     public typealias UpdateBlock = ()->()
     
-    internal(set) weak var broadcastable: Broadcastable?
+    internal(set) unowned var object: T
     private var notificationInfo: BroadcastNotificationInfo
     
     private var signalObserver: BroadcastObserver?
-    private var updateObserver: BroadcastObserver?
+    private var updateObservers = [BroadcastObserver]()
+    
+    deinit {
+        
+        // get rid of observer?
+        
+    }
     
     internal init(_ broadcastable: Broadcastable) {
         
-        self.broadcastable = broadcastable
-        self.notificationInfo = BroadcastNotificationInfo(baseName: "\(broadcastable.typeId)_\(broadcastable.broadcastId)")
+        self.object = (broadcastable as! T)
+        self.notificationInfo = BroadcastNotificationInfo(baseName: "\(broadcastable.broadcastTypeId)_\(broadcastable.broadcastId)")
         
     }
     
@@ -57,12 +63,11 @@ public class Broadcast<T: Broadcastable> {
         signalObserver = BroadcastObserver(name: notificationInfo.signalName, object: nil, block: { [weak self] (notification) in
             
             guard let _self = self else { return }
-            guard let _broadcastable = _self.broadcastable else { return }
             guard let info = notification.userInfo,
                 let container = info[BroadcastBlockContainer.key] as? BroadcastBlockContainer,
                 let block = container.block else { return }
             
-            block(_broadcastable)
+            block(_self.object)
             _self.postUpdateNotification()
             
         })
@@ -83,12 +88,13 @@ public class Broadcast<T: Broadcastable> {
     public func listen(_ block: @escaping UpdateBlock) {
         
         let _block: (Notification)->() = { _ in block() }
-        updateObserver = BroadcastObserver(name: notificationInfo.updateName, object: self.broadcastable, block: _block)
+        let observer = BroadcastObserver(name: notificationInfo.updateName, object: object, block: _block)
+        updateObservers.append(observer)
         
     }
     
     private func postUpdateNotification() {
-        NotificationCenter.default.post(name: Notification.Name(notificationInfo.updateName), object: self.broadcastable, userInfo: nil)
+        NotificationCenter.default.post(name: Notification.Name(notificationInfo.updateName), object: object, userInfo: nil)
     }
     
 }

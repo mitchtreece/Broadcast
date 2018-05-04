@@ -17,8 +17,6 @@ class PostCell: UITableViewCell {
     @IBOutlet weak var postTextLabel: UILabel!
     @IBOutlet weak var likesLabel: UILabel!
     
-    // private var updateObserver: BroadcastObserver?
-    
     var post: Post? {
         didSet {
             
@@ -26,6 +24,10 @@ class PostCell: UITableViewCell {
             
             layout(with: post)
 
+            // TODO:
+            // Listen adds multiple observers
+            // deinit unregisters (destroys) that observer for that specific holder automatically
+            
             post.broadcast.listen { [weak self] in
                 self?.layout(with: post)
             }

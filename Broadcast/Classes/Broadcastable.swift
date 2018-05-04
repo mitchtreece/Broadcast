@@ -17,7 +17,7 @@ private struct AssociatedKeys {
 
 public extension Broadcastable {
     
-    var broadcast: Broadcast<Self> {
+    private(set) var broadcast: Broadcast<Self> {
         get {
             
             guard let _broadcast = objc_getAssociatedObject(self, AssociatedKeys.BroadcastKey) as? Broadcast<Self> else {
@@ -40,7 +40,7 @@ public extension Broadcastable {
 
 internal extension Broadcastable {
     
-    var typeId: String {
+    var broadcastTypeId: String {
         return String(describing: type(of: self))
     }
     

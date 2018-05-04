@@ -12,6 +12,10 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
+    deinit {
+        print("\(self): deinit")
+    }
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
