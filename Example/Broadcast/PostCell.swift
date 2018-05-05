@@ -6,7 +6,6 @@
 //  Copyright © 2016 CocoaPods. All rights reserved.
 //
 
-import Foundation
 import UIKit
 import Broadcast
 
@@ -17,6 +16,8 @@ class PostCell: UITableViewCell {
     @IBOutlet weak var postTextLabel: UILabel!
     @IBOutlet weak var likesLabel: UILabel!
     
+    private var updateListener: Listener?
+    
     var post: Post? {
         didSet {
             
@@ -24,11 +25,7 @@ class PostCell: UITableViewCell {
             
             layout(with: post)
 
-            // TODO:
-            // Listen adds multiple observers
-            // deinit unregisters (destroys) that observer for that specific holder automatically
-            
-            post.broadcast.listen { [weak self] in
+            updateListener = post.broadcast.listen { [weak self] in
                 self?.layout(with: post)
             }
             

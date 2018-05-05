@@ -7,10 +7,13 @@
 //
 
 import Foundation
+import Broadcast
 
 class DataManager {
     
     static let shared = DataManager()
+    
+    private var updateListener: MultiListener
     
     private(set) var posts: [Post] = {[
         Post(postId: "0", text: "This is a post! w00t w00t!", numberOfLikes: 0),
@@ -22,6 +25,14 @@ class DataManager {
         Post(postId: "6", text: "All your bases are belonging to us.", numberOfLikes: 0),
         Post(postId: "7", text: "Hello from the other sideeeeeeeeee", numberOfLikes: 0),
         Post(postId: "8", text: "Yay everything is up-to-date! How magical! 🎩", numberOfLikes: 0)
-        ]}()
+    ]}()
+    
+    private init() {
+
+        updateListener = Listener.for(posts, { (object) in
+            print("\(object.notificationInfo.baseName) updated!")
+        })
+        
+    }
     
 }

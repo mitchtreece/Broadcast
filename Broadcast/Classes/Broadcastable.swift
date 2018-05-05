@@ -36,12 +36,12 @@ public extension Broadcastable {
         }
     }
     
-}
-
-internal extension Broadcastable {
-    
-    var broadcastTypeId: String {
+    var typeId: String {
         return String(describing: type(of: self))
+    }
+    
+    var notificationInfo: NotificationInfo {
+        return NotificationInfo(baseName: "\(typeId)_\(broadcastId)")
     }
     
 }
