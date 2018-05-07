@@ -17,13 +17,13 @@ public typealias VoidBlock = ()->()
 public class Broadcast<T: Broadcastable> {
     
     /**
-     A closure for `signal` event.
+     A closure for a `signal` event.
      - Parameter object: The "proxy" `Broadcastable` object.
      */
     public typealias SignalBlock = (_ object: T)->()
     
     private unowned var object: T
-    private var signalListener: Listener?
+    private var signalListener: BroadcastListener?
     
     internal init(_ object: T) {
         self.object = object
@@ -55,7 +55,7 @@ public class Broadcast<T: Broadcastable> {
      */
     public func make() {
         
-        signalListener = Listener(name: object.notificationInfo.signalName, object: nil, block: { [weak self] (notification) in
+        signalListener = BroadcastListener(name: object.notificationInfo.signalName, object: nil, block: { [weak self] (notification) in
             
             guard let _self = self else { return }
             guard let info = notification.userInfo,
@@ -83,12 +83,12 @@ public class Broadcast<T: Broadcastable> {
     }
     
     /**
-     Creates a `Listener` for a `Broadcastable` object's update event.
+     Creates a `BroadcastListener` for a `Broadcastable` object's update event.
      - Note: You must keep a reference to the returned listener.
      - Parameter block: The update handler.
      */
-    public func listen(_ block: @escaping VoidBlock) -> Listener {
-        return Listener.for(object, block: block)
+    public func listen(_ block: @escaping VoidBlock) -> BroadcastListener {
+        return BroadcastListener.for(object, block: block)
     }
     
     private func postUpdateNotification() {

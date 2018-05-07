@@ -16,7 +16,7 @@ class PostCell: UITableViewCell {
     @IBOutlet weak var postTextLabel: UILabel!
     @IBOutlet weak var likesLabel: UILabel!
     
-    private var updateListener: Listener?
+    private var updateListener: BroadcastListener?
     
     var post: Post? {
         didSet {

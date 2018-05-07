@@ -1,12 +1,12 @@
 ![Broadcast](Resources/logo.png)
 
-[![Version](https://img.shields.io/cocoapods/v/Broadcast.svg?style=flat)](http://cocoapods.org/pods/Broadcast)
-![Swift](https://img.shields.io/badge/Swift-4.1-orange.svg)
-[![Platform](https://img.shields.io/cocoapods/p/Broadcast.svg?style=flat)](http://cocoapods.org/pods/Broadcast)
-![iOS](https://img.shields.io/badge/iOS-10,%2011-blue.svg)
-[![License](https://img.shields.io/cocoapods/l/Broadcast.svg?style=flat)](http://cocoapods.org/pods/Broadcast)
+[![Version](https://img.shields.io/cocoapods/v/Broadcast.svg?style=for-the-badge)](http://cocoapods.org/pods/Broadcast)
+![Swift](https://img.shields.io/badge/Swift-4.2-orange.svg?style=for-the-badge)
+[![Platform](https://img.shields.io/cocoapods/p/Broadcast.svg?style=for-the-badge)](http://cocoapods.org/pods/Broadcast)
+![iOS](https://img.shields.io/badge/iOS-10,%2011-blue.svg?style=for-the-badge)
+[![License](https://img.shields.io/cocoapods/l/Broadcast.svg?style=for-the-badge)](http://cocoapods.org/pods/Broadcast)
 
-**Note**: Objective-C support was dropped in version `2.0.0`. If it's required, please use version `1.4.0` or lower.
+**Objective-C support was dropped in version `2.0.0`. If you need it, please use version `1.4.0` or lower.**
 
 ## Overview
 Broadcast is a quick-and-dirty solution for instance syncing and property binding. Similar things can be achieved with libraries
@@ -60,20 +60,22 @@ class Post: Broadcastable {
 
 ### Signaling
 Any changes made inside a signal block will be propagated to all instances of an object that share the same identifier.
+The `signal()` function's closure provides a *"proxy"* template object that will be swapped with the actual matching concrete `Broadcastable` object
+upon execution.
 
 ```swift
-post.broadcast.signal { (_post) in
-    _post.numberOfLikes += 1
+post.broadcast.signal { (aPost) in
+    aPost.numberOfLikes += 1
 }
 ```
 
 ### Listening
-Objects conforming to `Broadcastable` can be externally observed for changes. This is extremely useful when you need to bind your UI to an object's properties.
+`Broadcastable` objects can be externally observed for changes. This is extremely useful when you need to bind your UI to an object's properties.
 
 ```swift
 class PostCell: UITableViewCell {
 
-    var updateListener: Listener?
+    var listener: BroadcastListener?
 
     var post: Post? {
         didSet {
@@ -82,7 +84,7 @@ class PostCell: UITableViewCell {
 
             layoutUI(with: post)
 
-            updateListener = post.broadcast.listen { [weak self] in
+            listener = post.broadcast.listen { [weak self] in
                 self?.layoutUI(with: post)
             }
 
@@ -91,5 +93,21 @@ class PostCell: UITableViewCell {
 
     ...
 
+}
+```
+
+Groups of `Broadcastable` objects can also be observed at once via `BroadcastGroupListener`:
+
+```swift
+var listener: BroadcastGroupListener?
+
+let posts = [
+    Post(postId: "0", numberOfLikes: 3),
+    Post(postId: "1", numberOfLikes: 13),
+    Post(postId: "2", numberOfLikes: 23)
+]
+
+listener = posts.listen { (object) in
+    print("A post was updated!")
 }
 ```

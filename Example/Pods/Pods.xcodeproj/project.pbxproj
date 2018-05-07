@@ -10,10 +10,10 @@
 		1450FB52D1840A33350FB293327E2703 /* Pods-Broadcast_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = C15952F3CC0E5D162BEDE6113B7C482B /* Pods-Broadcast_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		26006702209D29CC00633B72 /* NotificationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26006701209D29CC00633B72 /* NotificationInfo.swift */; };
 		26006704209D29EF00633B72 /* BlockContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26006703209D29EF00633B72 /* BlockContainer.swift */; };
-		26006706209D2E2400633B72 /* Listener+Multi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26006705209D2E2400633B72 /* Listener+Multi.swift */; };
+		26006706209D2E2400633B72 /* BroadcastListener+Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26006705209D2E2400633B72 /* BroadcastListener+Group.swift */; };
 		265DE8792097F95200CCFDA4 /* Broadcast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265DE8782097F95200CCFDA4 /* Broadcast.swift */; };
 		265DE87B2097F96100CCFDA4 /* Broadcastable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265DE87A2097F96100CCFDA4 /* Broadcastable.swift */; };
-		302EEA3A1D0B557B0060ADBB /* Listener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302EEA391D0B557B0060ADBB /* Listener.swift */; };
+		302EEA3A1D0B557B0060ADBB /* BroadcastListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302EEA391D0B557B0060ADBB /* BroadcastListener.swift */; };
 		37408B0F2A968E6C22229294211D4AA9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC22C73C1608DFA5D5D78BDCB218219 /* Foundation.framework */; };
 		4B6FEEC3718265ADD592FC2562A75E4E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEC22C73C1608DFA5D5D78BDCB218219 /* Foundation.framework */; };
 		5291808E3CD277BD64942493A6104C0F /* Broadcast-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D686A8A5431161A3C436EDE70D4B7F /* Broadcast-dummy.m */; };
@@ -41,11 +41,11 @@
 		226A74033A80B0CDC7D01A1909B05B38 /* Pods-Broadcast_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-Broadcast_Tests.modulemap"; sourceTree = "<group>"; };
 		26006701209D29CC00633B72 /* NotificationInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationInfo.swift; sourceTree = "<group>"; };
 		26006703209D29EF00633B72 /* BlockContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockContainer.swift; sourceTree = "<group>"; };
-		26006705209D2E2400633B72 /* Listener+Multi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Listener+Multi.swift"; sourceTree = "<group>"; };
+		26006705209D2E2400633B72 /* BroadcastListener+Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BroadcastListener+Group.swift"; sourceTree = "<group>"; };
 		265DE8782097F95200CCFDA4 /* Broadcast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Broadcast.swift; sourceTree = "<group>"; };
 		265DE87A2097F96100CCFDA4 /* Broadcastable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Broadcastable.swift; sourceTree = "<group>"; };
 		273542444A3A3BD178AA3CDA24767CB2 /* Pods-Broadcast_Example-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Broadcast_Example-acknowledgements.markdown"; sourceTree = "<group>"; };
-		302EEA391D0B557B0060ADBB /* Listener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Listener.swift; sourceTree = "<group>"; };
+		302EEA391D0B557B0060ADBB /* BroadcastListener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BroadcastListener.swift; sourceTree = "<group>"; };
 		377EA217807279E91B915AFA23923482 /* Pods-Broadcast_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Broadcast_Tests-dummy.m"; sourceTree = "<group>"; };
 		38D686A8A5431161A3C436EDE70D4B7F /* Broadcast-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Broadcast-dummy.m"; sourceTree = "<group>"; };
 		3F23024EA5551B8F4FFBE44602879302 /* Pods-Broadcast_Example-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Broadcast_Example-resources.sh"; sourceTree = "<group>"; };
@@ -159,8 +159,8 @@
 		26006700209D22A600633B72 /* Listeners */ = {
 			isa = PBXGroup;
 			children = (
-				302EEA391D0B557B0060ADBB /* Listener.swift */,
-				26006705209D2E2400633B72 /* Listener+Multi.swift */,
+				302EEA391D0B557B0060ADBB /* BroadcastListener.swift */,
+				26006705209D2E2400633B72 /* BroadcastListener+Group.swift */,
 			);
 			path = Listeners;
 			sourceTree = "<group>";
@@ -379,8 +379,8 @@
 				5291808E3CD277BD64942493A6104C0F /* Broadcast-dummy.m in Sources */,
 				26006704209D29EF00633B72 /* BlockContainer.swift in Sources */,
 				26006702209D29CC00633B72 /* NotificationInfo.swift in Sources */,
-				26006706209D2E2400633B72 /* Listener+Multi.swift in Sources */,
-				302EEA3A1D0B557B0060ADBB /* Listener.swift in Sources */,
+				26006706209D2E2400633B72 /* BroadcastListener+Group.swift in Sources */,
+				302EEA3A1D0B557B0060ADBB /* BroadcastListener.swift in Sources */,
 				265DE87B2097F96100CCFDA4 /* Broadcastable.swift in Sources */,
 				265DE8792097F95200CCFDA4 /* Broadcast.swift in Sources */,
 			);

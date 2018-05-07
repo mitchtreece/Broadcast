@@ -13,7 +13,7 @@ class DataManager {
     
     static let shared = DataManager()
     
-    private var updateListener: MultiListener
+    private var updateListener: BroadcastGroupListener
     
     private(set) var posts: [Post] = {[
         Post(postId: "0", text: "This is a post! w00t w00t!", numberOfLikes: 0),
@@ -28,10 +28,10 @@ class DataManager {
     ]}()
     
     private init() {
-
-        updateListener = Listener.for(posts, { (object) in
+        
+        updateListener = posts.listen { (object) in
             print("\(object.notificationInfo.baseName) updated!")
-        })
+        }
         
     }
     

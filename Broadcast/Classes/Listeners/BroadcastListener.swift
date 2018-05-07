@@ -9,9 +9,9 @@
 import Foundation
 
 /**
- `Listener` is an observer over a `Broadcastable` object's signal & update events.
+ `BroadcastListener` is an observer over a `Broadcastable` object's signal & update events.
  */
-public class Listener {
+public class BroadcastListener {
     
     /**
      A notification closure for a `Listener`.
@@ -21,19 +21,12 @@ public class Listener {
     
     private let observer: Any?
     private let name: String
-    
-    /**
-     Creates a `Listener` for a `Broadcastable` object using a given handler block.
-     - Note: You must keep a reference to the returned listener.
-     - Parameter object: The `Broadcastable` object.
-     - Parameter block: The handler for this listener.
-     - Returns: A new `Listener` instance.
-     */
-    public static func `for`(_ object: Broadcastable, block: @escaping VoidBlock) -> Listener {
+
+    internal static func `for`(_ object: Broadcastable, block: @escaping VoidBlock) -> BroadcastListener {
         
         let _block: NotificationBlock = { _ in block() }
         let info = NotificationInfo(baseName: "\(object.typeId)_\(object.broadcastId)")
-        return Listener(name: info.updateName, object: object, block: _block)
+        return BroadcastListener(name: info.updateName, object: object, block: _block)
         
     }
     
