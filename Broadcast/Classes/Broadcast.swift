@@ -7,32 +7,52 @@
 
 import Foundation
 
+/// A `Void` closure.
 public typealias VoidBlock = ()->()
 
-public func listen(to objects: [Broadcastable], _ block: @escaping VoidBlock) -> MultiListener {
-    
-    let _block: Listener.NotificationBlock = { _ in block() }
-    
-    let listeners = objects.map { (object) -> (Listener) in
-        let info = NotificationInfo(baseName: "\(object.typeId)_\(object.broadcastId)")
-        return Listener(name: info.updateName, object: object, block: _block)
-    }
-    
-    return MultiListener(listeners)
-    
-}
-
+/**
+ A `Broadcastable` object's underlying `Broadcast` instance.
+ This object handles signaling & listening for events.
+ */
 public class Broadcast<T: Broadcastable> {
     
-    public typealias SignalBlock = (T)->()
+    /**
+     A closure for `signal` event.
+     - Parameter object: The "proxy" `Broadcastable` object.
+     */
+    public typealias SignalBlock = (_ object: T)->()
     
-    internal(set) unowned var object: T
+    private unowned var object: T
     private var signalListener: Listener?
     
     internal init(_ object: T) {
         self.object = object
     }
     
+    /**
+     Prepares the `Broadcast` object for signal & update events.
+     - Precondition: `make()` must be called **before** signaling events.
+     
+     ## Example: ##
+     ```
+     class User: Broadcastable {
+     
+        var name: String
+        var age: Int
+     
+        var broadcastId: String {
+            return "\(name)_\(age)"
+        }
+     
+        init(name: String, age: Int) {
+            self.name = name
+            self.age = age
+            self.broadcast.make()
+        }
+     
+     }
+     ```
+     */
     public func make() {
         
         signalListener = Listener(name: object.notificationInfo.signalName, object: nil, block: { [weak self] (notification) in
@@ -49,6 +69,10 @@ public class Broadcast<T: Broadcastable> {
         
     }
     
+    /**
+     Broadcasts changes made within the closure to other instances of the current object.
+     - Parameter block: The signal block.
+     */
     public func signal(_ block: @escaping SignalBlock) {
 
         let typeErasedBlock: (Any)->() = { block($0 as! T) }
@@ -58,6 +82,11 @@ public class Broadcast<T: Broadcastable> {
         
     }
     
+    /**
+     Creates a `Listener` for a `Broadcastable` object's update event.
+     - Note: You must keep a reference to the returned listener.
+     - Parameter block: The update handler.
+     */
     public func listen(_ block: @escaping VoidBlock) -> Listener {
         return Listener.for(object, block: block)
     }

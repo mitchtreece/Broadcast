@@ -9,16 +9,26 @@
 import Foundation
 
 /**
- `Listener` is an observer over a `Broadcastable` object update event.
+ `Listener` is an observer over a `Broadcastable` object's signal & update events.
  */
-@objcMembers
-public class Listener: NSObject {
+public class Listener {
     
-    public typealias NotificationBlock = (Notification)->()
+    /**
+     A notification closure for a `Listener`.
+     - Parameter notification: The source `Notification`.
+     */
+    public typealias NotificationBlock = (_ notification: Notification)->()
     
     private let observer: Any?
     private let name: String
     
+    /**
+     Creates a `Listener` for a `Broadcastable` object using a given handler block.
+     - Note: You must keep a reference to the returned listener.
+     - Parameter object: The `Broadcastable` object.
+     - Parameter block: The handler for this listener.
+     - Returns: A new `Listener` instance.
+     */
     public static func `for`(_ object: Broadcastable, block: @escaping VoidBlock) -> Listener {
         
         let _block: NotificationBlock = { _ in block() }

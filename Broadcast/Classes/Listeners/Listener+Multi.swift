@@ -8,11 +8,15 @@
 import Foundation
 
 /**
- `MultiListener` is an observer over multiple `Broadcastable` object update events.
+ `MultiListener` is an observer over multiple `Broadcastable` object's signal & update events.
  */
 public class MultiListener {
     
-    public typealias Block = (Broadcastable)->()
+    /**
+     A notification closure for a `MultiListener`.
+     - Parameter object: The source `Broadcastable` object.
+     */
+    public typealias Block = (_ object: Broadcastable)->()
     
     private var listeners: [Listener]
     
@@ -24,6 +28,13 @@ public class MultiListener {
 
 public extension Listener {
     
+    /**
+     Creates a `MultiListener` over multiple `Broadcastable` objects using a given handler block.
+     - Note: You must keep a reference to the returned listener.
+     - Parameter objects: The `Broadcastable` objects.
+     - Parameter block: The handler for this listener.
+     - Returns: A new `MultiListener` instance.
+     */
     public static func `for`(_ objects: [Broadcastable], _ block: @escaping MultiListener.Block) -> MultiListener {
         
         let _block: Listener.NotificationBlock = { (notification) in
