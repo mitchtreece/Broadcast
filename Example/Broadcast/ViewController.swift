@@ -7,11 +7,12 @@
 //
 
 import UIKit
+import Broadcast
 
 class ViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
-    
+
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -63,9 +64,8 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let post = DataManager.shared.posts[indexPath.row]
-
-        post.synchronize { (broadcastable) in
-            guard let _post = broadcastable as? Post else { return }
+        
+        post.broadcast.signal { (_post) in
             _post.numberOfLikes += 1
         }
         

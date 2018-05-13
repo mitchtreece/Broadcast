@@ -9,23 +9,27 @@
 import Foundation
 import Broadcast
 
-class Post: Broadcastable {
+class Post {
     
     var postId: String
     var text: String
     var numberOfLikes: Int
-    
-    var broadcastId: String {
-        return postId
-    }
     
     init(postId: String, text: String, numberOfLikes: Int) {
         
         self.postId = postId
         self.text = text
         self.numberOfLikes = numberOfLikes
-        makeBroadcastable()
+        self.broadcast.make()
         
+    }
+    
+}
+
+extension Post: Broadcastable {
+    
+    var broadcastId: String {
+        return postId
     }
     
 }

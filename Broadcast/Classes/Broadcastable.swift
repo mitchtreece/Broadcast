@@ -1,116 +1,83 @@
 //
-//  Broadcastable.swift
-//  Pods
-//
-//  Created by Mitch Treece on 6/10/16.
+//  Broadcastable2.swift
 //  Broadcast
+//
+//  Created by Mitch Treece on 4/30/18.
 //
 
 import Foundation
 
-public var BroadcastObserverAssociationToken: UInt8 = 0
-
-public typealias BroadcastBlock = (Broadcastable)->()
-public typealias BroadcastBlockObjC = (Any)->()
-
-/**
- `BroadcastBlockContainer` is an internal object used to pass synchronization blocks around.
- Unfortunately, to make this accessible to our `BroadcastableObject` Objective-C counterpart,
- This class needs to be marked public. This **should not** be used directly.
- */
-@objcMembers
-public class BroadcastBlockContainer: NSObject {
-    
-    public static let key = "BroadcastBlockContainer.key"
-    public private(set) var block: BroadcastBlock?
-    public private(set) var block_objc: BroadcastBlockObjC?
-    
-    public init(block: @escaping BroadcastBlock) {
-        self.block = block
-    }
-    
-    public init(block_objc: @escaping BroadcastBlockObjC) {
-        self.block_objc = block_objc
-    }
-    
+private struct AssociatedKeys {
+    static let BroadcastKey = "Broadcastable.broadcast"
 }
 
 /**
- The `Broadcastable` protocol defines an object that can notify and react when changes occur.
- Objects wishing to conform to `Broadcastable` simply need to supply a `broadcastId` & call
- `makeBroadcastable()` upon initialization (or anytime before calls to `synchronize()` happen).
+ The `Broadcastable` protocol defines an object that can signal and react to changes from other instances of itself.
+ - Precondition: `broadcast.make()` must be called **before** signaling events.
+ 
+ ## Example: ##
+ ```
+ class User: Broadcastable {
+ 
+    var name: String
+    var age: Int
+ 
+    var broadcastId: String {
+        return "\(name)_\(age)"
+    }
+ 
+    init(name: String, age: Int) {
+        self.name = name
+        self.age = age
+        self.broadcast.make()
+    }
+ 
+ }
+ ```
  */
 public protocol Broadcastable: class {
     
+    /// The `Broadcastable` object's instance identifier.
     var broadcastId: String { get }
-    func synchronize(_ block: @escaping BroadcastBlock)
-    func update(_ block: @escaping BroadcastObserver.Block) -> BroadcastObserver
     
 }
 
-public extension Broadcastable /* Broadcasts */ {
-    
-    // MARK: Internal
-    
-    internal func broadcastNotificationName() -> String {
-        return NSStringFromClass(type(of: self)) + "_" + broadcastId
-    }
-    
-    // MARK: Public
+public extension Broadcastable {
     
     /**
-     Registers & creates an observer for broadcast events based on an object's `broadcastId` property.
-     If you change an object's `broadcastId`, you **must** call `makeBroadcastable()` again.
+     The underlying `Broadcast` object that handles signaling and listening for events.
      */
-    public func makeBroadcastable() {
-        
-        let observer = BroadcastObserver(name: broadcastNotificationName() + ".synchronize", object: nil) { [weak self] (notification) in
+    public private(set) var broadcast: Broadcast<Self> {
+        get {
             
-            guard let _self = self else { return }
-            guard let info = notification.userInfo, let container = info[BroadcastBlockContainer.key] as? BroadcastBlockContainer else { return }
-            guard let block = container.block else { return }
+            guard let _broadcast = objc_getAssociatedObject(self, AssociatedKeys.BroadcastKey) as? Broadcast<Self> else {
+                
+                let _broadcast = Broadcast<Self>(self)
+                objc_setAssociatedObject(self, AssociatedKeys.BroadcastKey, _broadcast, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+                return _broadcast
+                
+            }
             
-            block(_self)
-            _self.updateNotify()
+            return _broadcast
             
         }
-        
-        objc_setAssociatedObject(self, &BroadcastObserverAssociationToken, observer, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-        
+        set {
+            objc_setAssociatedObject(self, AssociatedKeys.BroadcastKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
     }
     
     /**
-     Synchronizes changes made within the closure to other instances of an object.
+     The `Broadcastable` object's type identifier.
      */
-    public func synchronize(_ block: @escaping BroadcastBlock) {
-        
-        let container = BroadcastBlockContainer(block: block)
-        let info: [String: Any] = [BroadcastBlockContainer.key: container]
-        let name = broadcastNotificationName() + ".synchronize"
-        NotificationCenter.default.post(name: Notification.Name(name), object: nil, userInfo: info)
-
+    public var typeId: String {
+        return String(describing: type(of: self))
     }
     
-}
-
-public extension Broadcastable /* Updates */ {
-    
-    // MARK: Internal
-    
-    internal func updateNotify() {
-        
-        let name = Notification.Name(broadcastNotificationName() + ".update")
-        NotificationCenter.default.post(name: name, object: self, userInfo: nil)
-        
-    }
-    
-    // MARK: Public
-    
-    public func update(_ block: @escaping BroadcastObserver.Block) -> BroadcastObserver {
-        
-        let name = broadcastNotificationName() + ".update"
-        return BroadcastObserver(name: name, object: self, block: block)
-        
+    /**
+     The `Broadcastable` object's underlying notification info used for events.
+     */
+    internal var notificationInfo: NotificationInfo {
+        return NotificationInfo(baseName: "\(typeId)_\(broadcastId)")
     }
     
 }
