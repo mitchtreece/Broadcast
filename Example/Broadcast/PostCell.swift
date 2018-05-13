@@ -6,7 +6,6 @@
 //  Copyright © 2016 CocoaPods. All rights reserved.
 //
 
-import Foundation
 import UIKit
 import Broadcast
 
@@ -17,7 +16,7 @@ class PostCell: UITableViewCell {
     @IBOutlet weak var postTextLabel: UILabel!
     @IBOutlet weak var likesLabel: UILabel!
     
-    private var updateObserver: BroadcastObserver?
+    private var updateListener: BroadcastListener?
     
     var post: Post? {
         didSet {
@@ -25,10 +24,11 @@ class PostCell: UITableViewCell {
             guard let post = post else { return }
             
             layout(with: post)
-            updateObserver = post.update { [weak self] (notification) in
-                self?.updateUI(with: post)
+
+            updateListener = post.broadcast.listen { [weak self] in
+                self?.layout(with: post)
             }
-            
+                        
         }
     }
     
@@ -43,9 +43,7 @@ class PostCell: UITableViewCell {
     }
     
     private func layout(with post: Post) {
-        
         updateUI(with: post)
-        
     }
     
     private func updateUI(with post: Post) {

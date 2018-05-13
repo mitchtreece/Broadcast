@@ -1,11 +1,12 @@
-# Broadcast
-Lightweight instance syncing & property binding.
+![Broadcast](Resources/logo.png)
 
-[![Version](https://img.shields.io/cocoapods/v/Broadcast.svg?style=flat)](http://cocoapods.org/pods/Broadcast)
-![Swift](https://img.shields.io/badge/Swift-4.0-orange.svg)
-[![Platform](https://img.shields.io/cocoapods/p/Broadcast.svg?style=flat)](http://cocoapods.org/pods/Broadcast)
-![iOS](https://img.shields.io/badge/iOS-10,%2011-blue.svg)
-[![License](https://img.shields.io/cocoapods/l/Broadcast.svg?style=flat)](http://cocoapods.org/pods/Broadcast)
+[![Version](https://img.shields.io/cocoapods/v/Broadcast.svg?style=for-the-badge)](http://cocoapods.org/pods/Broadcast)
+![Swift](https://img.shields.io/badge/Swift-4.2-orange.svg?style=for-the-badge)
+[![Platform](https://img.shields.io/cocoapods/p/Broadcast.svg?style=for-the-badge)](http://cocoapods.org/pods/Broadcast)
+![iOS](https://img.shields.io/badge/iOS-10,%2011-blue.svg?style=for-the-badge)
+[![License](https://img.shields.io/cocoapods/l/Broadcast.svg?style=for-the-badge)](http://cocoapods.org/pods/Broadcast)
+
+**Objective-C support was dropped in version `2.0.0`. If you need it, please use version `1.4.0` or lower.**
 
 ## Overview
 Broadcast is a quick-and-dirty solution for instance syncing and property binding. Similar things can be achieved with libraries
@@ -33,8 +34,8 @@ You can also manually add the source files to your project.
 
 ## Broadcastable
 The `Broadcastable` protocol defines an object that can notify and react when property changes occur.
-To conform to `Broadcastable`, an object simply needs to return a broadcast identifier, and call `makeBroadcastable()` when initialized.
-This identifier broadcast identifier will be used to identify matching instances and notify them of changes.
+To conform to `Broadcastable`, an object simply needs to return a broadcast identifier, and call `broadcast.make()` when initialized.
+This broadcast identifier will be used to identify matching instances and notify them of changes.
 
 ```swift
 class Post: Broadcastable {
@@ -47,31 +48,34 @@ class Post: Broadcastable {
     }
 
     init(postId: String, numberOfLikes: Int) {
+
         self.postId = postId
         self.numberOfLikes = numberOfLikes
-        makeBroadcastable()
+        self.broadcast.make()
+
     }
 
 }
 ```
 
-### Synchronization
-Any changes made inside a synchronization block will be propagated to all instances of an object that share the same broadcast identifier.
+### Signaling
+Any changes made inside a signal block will be propagated to all instances of an object that share the same identifier.
+The `signal()` function's closure provides a *"proxy"* template object that will be swapped with the actual matching concrete `Broadcastable` object
+upon execution.
 
 ```swift
-post.synchronize { (broadcastable) in
-    guard let _post = broadcastable as? Post else { return }
-    _post.numberOfLikes += 1
+post.broadcast.signal { (aPost) in
+    aPost.numberOfLikes += 1
 }
 ```
 
-### Observation
-Objects conforming to `Broadcastable` can be externally observed for changes. This is extremely useful when you need to bind your UI to an object's properties.
+### Listening
+`Broadcastable` objects can be externally observed for changes. This is extremely useful when you need to bind your UI to an object's properties.
 
 ```swift
 class PostCell: UITableViewCell {
 
-    private var updateObserver: BroadcastObserver?
+    var listener: BroadcastListener?
 
     var post: Post? {
         didSet {
@@ -79,8 +83,9 @@ class PostCell: UITableViewCell {
             guard let post = post else { return }
 
             layoutUI(with: post)
-            updateObserver = post.update { [weak self] (notification) in
-                self?.updateUI(with: post)
+
+            listener = post.broadcast.listen { [weak self] in
+                self?.layoutUI(with: post)
             }
 
         }
@@ -91,23 +96,18 @@ class PostCell: UITableViewCell {
 }
 ```
 
-### BroadcastObserver
-The `BroadcastObserver` class is a simple block-based wrapper over `NotificationCenter` observation. It automatically handles observer removal on de-initialization.
-
-### BroadcastMultiObserver
-The `BroadcastMultiObserver` class is an aggregate observer over multiple `Broadcastable` objects. You can use this to monitor general updates over different kinds of objects.
+Groups of `Broadcastable` objects can also be observed at once via `BroadcastGroupListener`:
 
 ```swift
+var listener: BroadcastGroupListener?
+
 let posts = [
-    Post(postId: "0", text: "Hello, world!"),
-    Post(postId: "1", text: "All your base"),
-    Post(postId: "2", text: "Belong to us")
+    Post(postId: "0", numberOfLikes: 3),
+    Post(postId: "1", numberOfLikes: 13),
+    Post(postId: "2", numberOfLikes: 23)
 ]
 
-let observer = BroadcastMultiObserver(posts) { (notification) in
-    print("An object was updated!")
+listener = posts.listen { (object) in
+    print("A post was updated!")
 }
 ```
-
-### Objective-C
-For those of you refusing to embrace the future, the latest release of Broadcast now has Objective-C compatibility. Broadcast relies heavily on Swift's awesome protocol features, some of which Objective-C doesn't support. Because of this, classes in Objective-C will need to inherit from the `BroadcastableObject` class instead of conforming to the `Broadcastable` protocol. Other than that, working with Broadcast should be the same.
