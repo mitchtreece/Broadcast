@@ -10,7 +10,7 @@ import Foundation
 /**
  `NotificationInfo` is a container for a `Broadcastable` object's signal & update notification names.
  */
-public struct NotificationInfo {
+internal struct NotificationInfo {
     
     /// The notification's base name.
     public private(set) var baseName: String

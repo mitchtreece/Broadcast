@@ -28,7 +28,7 @@ class PostCell: UITableViewCell {
             updateListener = post.broadcast.listen { [weak self] in
                 self?.layout(with: post)
             }
-            
+                        
         }
     }
     

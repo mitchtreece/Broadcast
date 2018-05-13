@@ -30,7 +30,7 @@ class DataManager {
     private init() {
         
         updateListener = posts.listen { (object) in
-            print("\(object.notificationInfo.baseName) updated!")
+            print("\(object.typeId) updated!")
         }
         
     }

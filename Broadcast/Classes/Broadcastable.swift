@@ -76,7 +76,7 @@ public extension Broadcastable {
     /**
      The `Broadcastable` object's underlying notification info used for events.
      */
-    public var notificationInfo: NotificationInfo {
+    internal var notificationInfo: NotificationInfo {
         return NotificationInfo(baseName: "\(typeId)_\(broadcastId)")
     }
     
