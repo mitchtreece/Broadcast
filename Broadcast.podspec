@@ -15,6 +15,7 @@ Pod::Spec.new do |s|
   s.source           = { :git => "https://github.com/mitchtreece/Broadcast.git", :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/MitchTreece'
 
+  s.swift_version    = '4.2'
   s.platform         = :ios, '10.0'
   s.source_files     = 'Broadcast/Classes/**/*'
 
