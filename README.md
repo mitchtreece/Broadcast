@@ -2,7 +2,7 @@
 
 [![Version](https://img.shields.io/cocoapods/v/Broadcast.svg?style=for-the-badge)](http://cocoapods.org/pods/Broadcast)
 ![Swift](https://img.shields.io/badge/Swift-4.2-orange.svg?style=for-the-badge)
-![iOS](https://img.shields.io/badge/iOS-10--12-teal.svg?style=for-the-badge)
+![iOS](https://img.shields.io/badge/iOS-10--12-green.svg?style=for-the-badge)
 [![License](https://img.shields.io/cocoapods/l/Broadcast.svg?style=for-the-badge)](http://cocoapods.org/pods/Broadcast)
 
 **Objective-C support was dropped in version `2.0.0`. If you need it, please use version `1.4.0` or lower.**
